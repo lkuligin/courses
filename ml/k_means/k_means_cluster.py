@@ -79,6 +79,16 @@ Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=fe
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+print type(finance_features)
+salary = [float(data_dict[point]["salary"]) for point in data_dict if data_dict[point]["salary"] <> 'NaN']
+salary = scaler.fit_transform(salary)
+print 'Scaled 200K salary: ', scaler.transform([200000.0])
+exc_options = [float(data_dict[point]["exercised_stock_options"]) for point in data_dict if data_dict[point]["exercised_stock_options"] <> 'NaN']
+salary = scaler.fit_transform(exc_options)
+print 'Scaled 1M exc options: ', scaler.transform([1000000.0])
+
 
 try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
