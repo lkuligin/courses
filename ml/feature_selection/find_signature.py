@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import pickle
-import numpy
-numpy.random.seed(42)
+import numpy as np
+np.random.seed(42)
 
 
 ### the words (features) and authors (labels), already largely processed
@@ -21,11 +21,9 @@ from sklearn import cross_validation
 features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(word_data, authors, test_size=0.1, random_state=42)
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,
-                             stop_words='english')
+vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english')
 features_train = vectorizer.fit_transform(features_train)
 features_test  = vectorizer.transform(features_test).toarray()
-
 
 ### a classic way to overfit is to use a small number
 ### of data points and a large number of features
@@ -33,9 +31,19 @@ features_test  = vectorizer.transform(features_test).toarray()
 features_train = features_train[:150].toarray()
 labels_train   = labels_train[:150]
 
+print 'Initial amount of features: ', len(features_train)
 
+from sklearn import tree
+from sklearn.metrics import accuracy_score
 
-### your code goes here
+clf = tree.DecisionTreeClassifier()
+clf.fit(features_train, labels_train)   
+pred = clf.predict(features_test)
+acc = accuracy_score(pred, labels_test)
+print 'Decision tree accuracy: ', acc
 
-
-
+importances = clf.feature_importances_ 
+print importances[0]
+a = np.where(importances == importances.max())
+print 'The max important feature: ',  a[0][0], ' feature: ', vectorizer.get_feature_names()[a[0][0]], ' score: ', importances.max()
+print 'Amount of features with importance over 0.2: ', len(np.where(importances > 0.2))

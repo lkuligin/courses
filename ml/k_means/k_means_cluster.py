@@ -45,12 +45,15 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 data_dict.pop("TOTAL", 0)
 
 
+print 'Minimum feature: ' , min([data_dict[el]['salary'] for el in data_dict])
+print 'Minimum feature: ' , max([data_dict[el]['salary'] for el in data_dict if data_dict[el]['salary'] <> 'NaN'])
+
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2]
+features_list = [poi, feature_1, feature_2,'total_payments']
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -59,7 +62,7 @@ poi, finance_features = targetFeatureSplit( data )
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, line below assumes 2 features)
-for f1, f2 in finance_features:
+for f1, f2, f3 in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
 
@@ -76,6 +79,16 @@ Draw(pred, finance_features, poi, name="clusters_before_scaling.pdf", f1_name=fe
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+print type(finance_features)
+salary = [float(data_dict[point]["salary"]) for point in data_dict if data_dict[point]["salary"] <> 'NaN']
+salary = scaler.fit_transform(salary)
+print 'Scaled 200K salary: ', scaler.transform([200000.0])
+exc_options = [float(data_dict[point]["exercised_stock_options"]) for point in data_dict if data_dict[point]["exercised_stock_options"] <> 'NaN']
+salary = scaler.fit_transform(exc_options)
+print 'Scaled 1M exc options: ', scaler.transform([1000000.0])
+
 
 try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
