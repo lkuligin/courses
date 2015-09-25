@@ -13,7 +13,7 @@ from_chris = open("from_chris.txt", "r")
 
 from_data = []
 word_data = []
-to_remove = ["sara", "shackleton", "chris", "germani"]
+to_remove = ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]
 
 temp_counter = 0
 
