@@ -26,20 +26,21 @@ data = featureFormat(data_dict, features_list)
 labels, features = targetFeatureSplit(data)
 
 
-
 from sklearn import tree
 from sklearn.metrics import accuracy_score
 from sklearn import cross_validation
 features_train, features_test, labels_train, labels_test = cross_validation.train_test_split(features, labels, test_size=0.3, random_state=42)
 
 clf = tree.DecisionTreeClassifier()
-clf.fit(features, labels)   
+print features[0], len(features)
+print labels[0], len(labels)
+clf.fit(features, labels)
 pred = clf.predict(features)
 acc = accuracy_score(pred, labels)
 print 'Decision tree accuracy: ', acc
 
 clf1 = tree.DecisionTreeClassifier()
-clf1.fit(features_train, labels_train)   
+clf1.fit(features_train, labels_train)
 pred = clf1.predict(features_test)
 acc = accuracy_score(pred, labels_test)
 print 'Decision tree accuracy: ', acc
