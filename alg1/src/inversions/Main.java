@@ -1,28 +1,40 @@
 package inversions;
 
-public class Main {
-	
+import graphs.RandomContraction;
+import graphs.UndirectedGraph;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.lang.System;
+
+public class Main {	
 	public static void main(String[] args) throws Exception{
-		System.out.println("Test");
-		Tsv_Read TsvRead = new Tsv_Read("C:\\Users\\Leonid\\Downloads\\IntegerArray.txt");
-		//Tsv_Read TsvRead = new Tsv_Read("C:\\Users\\Leonid\\Downloads\\10.txt");
-		//Tsv_Read TsvRead = new Tsv_Read("C:\\Users\\Leonid\\Downloads\\test.txt");
-		int[] a = TsvRead.ReadFile();
-		System.out.println(a.length);
-		int[] test = {4, 3, 2, 1};
-		//System.out.println(Inversions_Count.Count(test));
-		//System.out.println(Inversions_Count.Count(a));
-		//b = QuickSort(a, 0, a.length-1)
-		//System.out.println(a[9999]);
-		//System.out.println(QuickSort.sort(a, 0, a.length-1));
-		//System.out.println("Starting...");
-		//System.out.println(a[0] + " " + a[1] + " " + a[2] + " " + a[3] + " " + a[4] + " " + a[5] + " ");
-		
-		//long b = QuickSort.sort(a, 0, a.length-1);
-		//System.out.println("Partition = first: " + QuickSort.sort(a, 0, a.length-1, "first"));
-		System.out.println("Partition = last: " + QuickSort.sort(a, 0, a.length-1, "last"));
-		//System.out.println("Partition = median: " + QuickSort.sort(a, 0, a.length-1, "median"));
-		//System.out.println(a[1]);
+		System.setErr(new PrintStream(new File("log.txt")));
+		switch (args.length) {
+			case 0: 
+				System.out.println("no args");
+			case 1:
+				if (args[0].equals("inv")) {
+					Tsv_Read TsvRead = new Tsv_Read("C:\\Users\\Leonid\\Downloads\\IntegerArray.txt");
+					int[] a = TsvRead.ReadFile();
+					System.out.println(a.length);
+					System.out.println(Inversions_Count.Count(a));
+				}
+				else if (args[0].equals("qs")) {
+					Tsv_Read TsvRead = new Tsv_Read("C:\\Users\\Leonid\\Downloads\\IntegerArray.txt");
+					int[] a = TsvRead.ReadFile();
+					//System.out.println("Partition = first: " + QuickSort.sort(a, 0, a.length-1, "first"));
+					System.out.println("Partition = last: " + QuickSort.sort(a, 0, a.length-1, "last"));
+					//System.out.println("Partition = median: " + QuickSort.sort(a, 0, a.length-1, "median"));
+				}
+				else if (args[0].equals("conc")) {
+					RandomContraction rc = new RandomContraction("C:/Users/Leonid/Downloads/kargerMinCut.txt", "(\\s)+");
+					//RandomContraction rc = new RandomContraction("C:/Users/Leonid/Downloads/tc1.txt", "(\\s)+");
+					System.out.println("Test1");
+					System.out.println(rc.MinCut());
+					//Integer i = rc.MinCut();
+				}
+		}
 	}
 	
 }
