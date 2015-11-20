@@ -1,11 +1,11 @@
 package inversions;
 
-import graphs.RandomContraction;
-import graphs.UndirectedGraph;
+import graphs.*;
 
 import java.io.File;
 import java.io.PrintStream;
 import java.lang.System;
+import java.util.List;
 
 public class Main {	
 	public static void main(String[] args) throws Exception{
@@ -33,6 +33,30 @@ public class Main {
 					System.out.println("Test1");
 					System.out.println(rc.MinCut());
 					//Integer i = rc.MinCut();
+				}
+				else if (args[0].equals("SCC")) {
+					DirectedGraph gr = new DirectedGraph("C:/Users/Leonid/Downloads/SCC.txt", "(\\s)+");
+					//gr.print();
+					StrongConnectedComponents SCC = new StrongConnectedComponents(gr);
+					//DirectedGraph grR = SCC.reverseGraph(gr);
+					//grR.print();
+				}
+				else if (args[0].equals("dkst")) {
+					System.out.println("test2");
+					DirectedGraphL gr = new DirectedGraphL("C:/Users/Leonid/Downloads/dijkstraData.txt", "(\\s)+", ",");
+					
+					//DirectedGraphL gr = new DirectedGraphL("C:/Users/Leonid/Downloads/d1.txt", "(\\s)+", ",");
+					//System.out.println(gr.getDistance(10, 20));
+					Dijkstra d = new Dijkstra();
+					List<int[]> a =d.getDistances(gr, 1);
+					for (int[] el : a) {
+						for (int el1: el)
+							System.out.print(el1 + " ");
+						System.out.println(" ");
+					}
+					//System.out.println(d.getDistances(gr, 1));
+					d.FindShortestPaths(gr, 1);
+					d.print();
 				}
 		}
 	}
