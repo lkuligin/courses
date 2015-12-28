@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.*;
 
 import util.GraphLoader;
 
@@ -35,9 +36,8 @@ public abstract class Graph {
 		numVertices = 0;
 		numEdges = 0;
 		vertexLabels = null;
-	}
+	}	
 
-	
 	/**
 	 * Report size of vertex set
 	 * @return The number of vertices in the graph.
@@ -45,8 +45,8 @@ public abstract class Graph {
 	public int getNumVertices() {
 		return numVertices;
 	}
-	
-	
+
+
 	/**
 	 * Report size of edge set
 	 * @return The number of edges in the graph.
@@ -117,12 +117,16 @@ public abstract class Graph {
 	 * The degree sequence of a graph is a sorted (organized in numerical order 
 	 * from largest to smallest, possibly with repetitions) list of the degrees 
 	 * of the vertices in the graph.
-	 * 
 	 * @return The degree sequence of this graph.
 	 */
 	public List<Integer> degreeSequence() {
-		// XXX: Implement in part 1 of week 1
-		return null;
+		List<Integer> res = new ArrayList<Integer>();
+		IntStream.range(0, numVertices).forEach(
+				v -> {
+					res.add(getNeighbors(v).size()+getInNeighbors(v).size());
+					});	
+		res.sort((c1, c2) -> Integer.compare(c2, c1));
+		return res;
 	}
 	
 	/**
@@ -228,7 +232,7 @@ public abstract class Graph {
 
 	
 	public static void main (String[] args) {
-		GraphLoader.createIntersectionsFile("data/maps/myucsd.map", "data/intersections/myucsd.intersections");
+		GraphLoader.createIntersectionsFile("data/maps/ucsd.map", "data/intersections/myucsd.intersections");
 		
 
 		// For testing of Part 1 functionality
@@ -261,6 +265,8 @@ public abstract class Graph {
 		// Test your distance2 code here.
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
+		System.out.println(graphFromFile.getDistance2(1));
+		System.out.println(airportGraph.getDistance2(98));
 
 
 		
