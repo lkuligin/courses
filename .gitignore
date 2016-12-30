@@ -93,3 +93,4 @@ ENV/
 **/target
 **/build
 **/.idea
+**/out
