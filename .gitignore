@@ -92,3 +92,4 @@ ENV/
 **/project
 **/target
 **/build
+**/.idea
